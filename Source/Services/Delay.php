@@ -11,5 +11,15 @@ class Delay implements IService
 
 	public function execute():bool
 	{
+
+		//I get stuff from server
+		$passangers = [];
+
+		$baseRecipients = [];
+		foreach($passangers as $passanger)
+		{
+			if($passanger->email !== '' && )
+		}
+
 	}
 }
