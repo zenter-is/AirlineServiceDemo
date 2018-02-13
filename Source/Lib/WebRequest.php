@@ -1,23 +1,19 @@
-<?hh // strict
+<?php
 
 namespace AirlineServiceDemo\Lib;
 
 use Exception;
 
-type Data = shape();
 
-type GraphQlError = shape(
-	"message" => string,
-	"locations" => shape(
-		"line" => int,
-		"column" => int,
-		)
-	);
+function idx($array, $key, $default = null)
+{
+	if (array_key_exists($key, $array))
+	{
+		return $array[$key];
+	}
 
-type GraphQlData = shape(
-	'data' => Data,
-	'errors' => array<GraphQlError>
-);
+	return $default;
+}
 
 /**
  * Asynchronous communication service to the Ivory system
@@ -25,19 +21,10 @@ type GraphQlData = shape(
  */
 class WebRequest
 {
-	const int MAX_CONNECTIONS = 80;
-
-
 	const string ASSET_QUERY = 'id,title,sha1,size,content_type,ref_sha1,date_created,date_modified';
-	const string CACHE_ADVERTISEMENT_QUERY = 'id,asset_id,comment';
-	const string IMPRESSION_QUERY = 'id,advertisement_id,publication_id,page,subPage,placement,appearance_time,type,user_id,comment';
-	const string PUBLICATION_QUERY = 'id,publish_date,asset_id,publisher_id,added_by_user_id,category_id,pages';
-
 	const bool DEBUGGING = false;
 
-
 	static int $failure = 0;
-	static int $connections = 0;
 
 	private static ?string $endpoint = null;
 
@@ -60,16 +47,15 @@ class WebRequest
 		return self::$endpoint;
 	}
 
-
-
-	public static async function getDataFromQuery(array<string,mixed> $query):Awaitable<?Data>
+	public static function getDataFromQuery(array<string,mixed> $query)
 	{
-		$data = await self::getGraphQlResponse($query);
+		$data = self::getGraphQlResponse($query);
 		if(!$data)
 		{
 			return null;
 		}
-		if($errors = Shapes::idx($data, 'errors'))
+
+		if($errors = idx($data, 'errors'))
 		{
 			error_log(print_r($errors, true));
 			throw new Exception('GraphQl Errors! (' . print_r($errors, true) . ')');
@@ -77,7 +63,7 @@ class WebRequest
 		return $data['data'];
 	}
 
-	public static async function getGraphQlResponse(array<string,mixed> $query):Awaitable<?GraphQlData>
+	public static function getGraphQlResponse(array<string,mixed> $query)
 	{
 		$query = json_encode($query);
 		if($query === false)
@@ -85,7 +71,7 @@ class WebRequest
 			$error = json_last_error_msg();
 			throw new Exception('Json Encode Error: '.$error);
 		}
-		$dataString = await self::callEndpointWithCurl(self::getEndpoint(),$query);
+		$dataString = self::callEndpointWithCurl(self::getEndpoint(),$query);
 
 		$data = json_decode($dataString, true);
 		if($data === false)
@@ -96,7 +82,7 @@ class WebRequest
 		return $data;
 	}
 
-	public static async function callEndpointWithCurl(string $endpoint, string $query, int $tries = 1):Awaitable<string>
+	public static function callEndpointWithCurl(string $endpoint, string $query, int $tries = 1)
 	{
 		if($tries > 10)
 		{
@@ -108,13 +94,6 @@ class WebRequest
 			print($query . PHP_EOL);
 		}
 
-		//Sleep while we have to many connections
-		while(self::$connections > self::MAX_CONNECTIONS)
-		{
-			await \HH\Asio\usleep(3000);
-		}
-
-		self::$connections++;
 
 		$handle = curl_init($endpoint);
 		curl_setopt($handle, CURLOPT_CUSTOMREQUEST, "POST");
@@ -131,14 +110,13 @@ class WebRequest
 		    'Content-Type: application/json',
 		    'Content-Length: ' . strlen($query))
 		);
-		$incommingData = await \HH\Asio\curl_exec($handle);
+
+		$incommingData = curl_exec($handle);
 
 		$curlError = curl_error($handle);
 		$http_code = curl_getinfo($handle, CURLINFO_HTTP_CODE);
 
 		curl_close($handle);
-
-		self::$connections--;
 
 
 		if($curlError || $http_code !== 200 || $incommingData == "" || $incommingData === null || trim($incommingData) == '')
@@ -155,8 +133,7 @@ class WebRequest
 				error_log(PHP_EOL . '     -------  500  -------' . PHP_EOL);
 				error_log('Checking again!!! Failure #' . self::$failure++ . " Try: " . $tries);
 				error_log("--------END IVORY CURL ERROR--------\n");
-				await \HH\Asio\usleep(3000);
-				return await self::callEndpointWithCurl($endpoint, $query, $tries++);
+				return self::callEndpointWithCurl($endpoint, $query, $tries++);
 			}
 
 
@@ -165,8 +142,8 @@ class WebRequest
 				error_log('-------  502 -------');
 				error_log('Checking again!!! Failure #' . self::$failure++ . " Try: " . $tries);
 				error_log("--------END IVORY CURL ERROR--------\n");
-				await \HH\Asio\usleep(3000);
-				return await self::callEndpointWithCurl($endpoint, $query, $tries++);
+
+				return self::callEndpointWithCurl($endpoint, $query, $tries++);
 			}
 
 			switch ($curlError)
@@ -175,8 +152,7 @@ class WebRequest
 				case 'Recv failure: Connection reset by peer':
 					error_log('Checking again!!! Failure #' . self::$failure++ . " Try: " . $tries);
 					error_log("--------END IVORY CURL ERROR--------\n");
-					await \HH\Asio\usleep(3000);
-					return await self::callEndpointWithCurl($endpoint, $query, $tries++);
+					return self::callEndpointWithCurl($endpoint, $query, $tries++);
 					break;
 
 				default:
@@ -200,8 +176,7 @@ class WebRequest
 			error_log("IncommingData:\n" . $incommingData);
 			error_log('Checking again!!! Failure #' . self::$failure++ . " Try: " . $tries);
 			error_log("--------END IVORY CURL ERROR--------\n");
-			await \HH\Asio\usleep(3000);
-			return await self::callEndpointWithCurl($endpoint, $query, $tries++);
+			return self::callEndpointWithCurl($endpoint, $query, $tries++);
 		}
 		if(self::DEBUGGING)
 		{
