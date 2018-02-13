@@ -23,11 +23,11 @@ class Router
 		switch($this->headers['REQUEST_URI'])
 		{
 			case 'delay':
-				$service = new Services\Delay();
+				$service = new Services\Delay(['flightId' => '186']);
 				$service->execute();
 				break;
 			case 'landed':
-				$service = new Services\Landed();
+				$service = new Services\Landed(['flightId' => 'F221']);
 				$service->execute();
 				break;
 			default:
