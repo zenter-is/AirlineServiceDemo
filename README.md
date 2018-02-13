@@ -11,3 +11,7 @@ Note: This is meant as proof of concept but not as actually fully functional cod
 ## Example usage
 
  - Call the webserver with using either [/delay](/delay) or [/landed](/landed).
+
+# Information about the Zenter API.
+
+Information about what capabilities area available through the Zenter API can be explored by navigating to `/api/v2ea1` after logging in to the Zenter system of your choice
