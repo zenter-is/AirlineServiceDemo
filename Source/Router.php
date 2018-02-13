@@ -20,6 +20,20 @@ class Router
 
 	public function execute():string
 	{
-		echo "Hello world";
+		switch($this->headers['REQUEST_URI'])
+		{
+			case 'delay':
+				$service = new Services\Delay();
+				$service->execute();
+				break;
+			case 'landed':
+				$service = new Services\Landed();
+				$service->execute();
+				break;
+			default:
+				http_response_code(404);
+				return "The thing you were looking for could not be found";
+				break;
+		}
 	}
 }
