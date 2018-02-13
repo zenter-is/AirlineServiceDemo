@@ -1,1 +1,4 @@
-SendJob.graphql
+mutation($id:Int!)
+{
+	SendJob(id:$id)
+}

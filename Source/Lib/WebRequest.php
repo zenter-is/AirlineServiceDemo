@@ -33,6 +33,52 @@ class WebRequest
 
 	}
 
+	public static function createList(string $title)
+	{
+		$query = [
+			"query" => file_get_contents(__DIR__ . "/../ZenterApiQueries/CreateList.graphql"),
+			"variables" =>
+			[
+				'title' => $title
+			]
+		];
+		$data = self::getDataFromQuery($query);
+
+		if(!$data)
+		{
+			return null;
+		}
+
+		if($list = current($data['AddList']))
+		{
+			return $list;
+		}
+		return null;
+	}
+
+	public static function createJob(string $title)
+	{
+		$query = [
+			"query" => file_get_contents(__DIR__ . "/../ZenterApiQueries/CreateJob.graphql"),
+			"variables" =>
+			[
+				'title' => $title
+			]
+		];
+		$data = self::getDataFromQuery($query);
+
+		if(!$data)
+		{
+			return null;
+		}
+
+		if($list = current($data['AddList']))
+		{
+			return $list;
+		}
+		return null;
+	}
+
 	public static function initialize(string $endpoint):void
 	{
 		self::$endpoint = $endpoint;

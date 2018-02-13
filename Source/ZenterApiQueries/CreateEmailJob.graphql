@@ -1,1 +1,8 @@
-CreateEmailJob.graphql
+mutation($title: String!)
+{
+  CreateJob(title:$title)
+  {
+    id
+    title
+  }
+}

@@ -1,1 +1,9 @@
-AddRecipient.graphql
+mutation($name:String!, $mobile:String!)
+{
+  addRecipient(name:$name, mobile:$mobile)
+  {
+    id
+    name
+    mobile
+  }
+}
