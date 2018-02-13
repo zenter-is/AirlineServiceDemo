@@ -19,7 +19,7 @@ function idx($array, $key, $default = null)
  * Asynchronous communication service to the Ivory system
  * Remember to use \HH\Asio\join(<Awaitable>) to get the data
  */
-class WebRequest
+class GraphqApiClient
 {
 	const string ASSET_QUERY = 'id,title,sha1,size,content_type,ref_sha1,date_created,date_modified';
 	const bool DEBUGGING = false;
