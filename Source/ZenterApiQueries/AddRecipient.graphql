@@ -1,9 +1,9 @@
-mutation($name:String!, $mobile:String!)
+mutation($name:String!, $email:String!)
 {
-  addRecipient(name:$name, mobile:$mobile)
+  addRecipient(name:$name, email:$email)
   {
     id
     name
-    mobile
+    email
   }
 }
