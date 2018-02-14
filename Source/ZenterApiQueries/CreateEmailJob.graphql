@@ -1,8 +1,8 @@
 mutation($title: String!)
 {
-  CreateJob(title:$title)
-  {
-    id
-    title
-  }
+	CreateJob(title:$title)
+	{
+		id
+		title
+	}
 }
