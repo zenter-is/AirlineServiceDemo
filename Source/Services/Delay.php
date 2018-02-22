@@ -52,7 +52,7 @@ class Delay implements IService
 			],
 			[
 				'type' => 2,
-				'content' => 'New flight time is 22:77'
+				'content' => 'New flight time is DD-MM-YYYY, 22:77'
 			]
 		];
 
