@@ -46,11 +46,11 @@ class Landed implements IService
 			[
 				'type' => 1,
 				'title' => "Thank you for flying with airline XXX",
-				'content' => "Dear {$recipient->name}, we are thank you for flying with airline XXX."
+				'content' => "Dear {$recipient->name}, we say a big thank you for flying with airline XXX."
 			],
 			[
 				'type' => 2,
-				'content' => 'As a thankyou we offer you this coupon for some snacks while you wait for your luggage'
+				'content' => 'As a way of saying thank you, we offer you this coupon for some snacks while you wait for your luggage'
 			]
 		];
 
