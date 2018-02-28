@@ -1,0 +1,8 @@
+mutation($procedureId: Int!, $recipientIds: [Int!]!)
+{
+  AddRecipientToProcedure(procedureId:$procedureId, recipientId: $recipientIds)
+  {
+    id
+    countRecipients
+  }
+}

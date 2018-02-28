@@ -4,5 +4,5 @@ namespace AirlineServiceDemo\Services;
 
 interface IService
 {
-	public function execute($data):bool;
+	public function execute(array $data):bool;
 }

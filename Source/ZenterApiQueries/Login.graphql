@@ -1,0 +1,4 @@
+mutation($ApiToken:String!, $ApiPassphrase:String!)
+{
+	loginApiUser(email:$ApiToken, password:$ApiPassphrase)
+}

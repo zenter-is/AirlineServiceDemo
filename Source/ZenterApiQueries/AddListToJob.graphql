@@ -1,0 +1,4 @@
+mutation($listId: Int!, $jobId: Int!)
+{
+	AddListToJob(listId:$listId, jobId: $jobId)
+}

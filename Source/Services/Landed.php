@@ -2,6 +2,9 @@
 
 namespace AirlineServiceDemo\Services;
 
+use AirlineServiceDemo\Lib\GraphqApiClient;
+use AirlineServiceDemo\Lib\AirlineApi;
+
 class Landed implements IService
 {
 	public function __construct()
@@ -9,11 +12,13 @@ class Landed implements IService
 	}
 
 
-	public function execute():bool
+	public function execute(array $data):bool
 	{
+		$flightId = $data['flightId'];
 
+		$airlineApi = new AirlineApi('http://some_endpoint');
 		//I get stuff from server
-		$passangers = [];
+		$passangers = $airlineApi->getPassengersForFlight($flightId);
 
 		$baseRecipients = [];
 		foreach($passangers as $passanger)
@@ -30,17 +35,31 @@ class Landed implements IService
 		$recipientIds = array_map(function($recipient) { return $recipient->id }, $zenterRecipients);
 
 		//@TODO: create a list
+		$list = GraphqApiClient::createList("List-{$flightId}");
+
+		if ($list === null)
+		{
+			// Panic or handle error!!
+		}
 
 		$list; //Should exist by now.
 
 		//@TODO: Add recipients to list
+		$list;
 
 		//------------------------------------------------
 
 		//@TODO: Create a job
+		$jobTitle = "";
 
-		$job; //Should exist by now
+		$job =  GraphqApiClient::createJob($jobTitle); // this might need more details
 
+		$jobId = array_key_exists("id", $job)?$job['id']:null;
+
+		if (!$jobId)
+		{
+			throw new Exception("Unable to create Job");
+		}
 
 		$articles = [
 			[
@@ -59,5 +78,6 @@ class Landed implements IService
 		//@TODO: Add list to job
 
 		//@TODO: Send the job
+		$job =  GraphqApiClient::createJob($job['id']);
 	}
 }

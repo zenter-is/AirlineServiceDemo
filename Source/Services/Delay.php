@@ -3,6 +3,7 @@
 namespace AirlineServiceDemo\Services;
 
 use AirlineServiceDemo\Lib\AirlineApi;
+use AirlineServiceDemo\Lib\GraphqApiClient;
 
 class Delay implements IService
 {
@@ -11,11 +12,29 @@ class Delay implements IService
 	}
 
 
-	public function execute($data):bool
+	public function execute(array $data):bool
 	{
+
+		GraphqApiClient::initialize("http://zenter.local/Api/V2ea1");
+		GraphqApiClient::getVersion();
+
+		$token = GraphqApiClient::login("483_api@zenter.is", "f3ad7732fcfa98059a84aae21536bdfa");
+
+		if (!$token)
+		{
+			throw new Exception("Could not login");
+		}
+
+		GraphqApiClient::initialize("http://zenter.local/Api/V2ea1?token={$token}");
+		if (!GraphqApiClient::IsPriviliged())
+		{
+			throw new Exception("Login attempt failed");
+		}
+
+		$flightId = $data['flightId'];
 		$airlineApi = new AirlineApi('http://some_endpoint');
 		//I get stuff from server
-		$passangers = $airlineApi->getPassengersForFlight($data['flightId']);
+		$passangers = $airlineApi->getPassengersForFlight($flightId);
 
 		$baseRecipients = [];
 		foreach($passangers as $passanger)
@@ -29,20 +48,30 @@ class Delay implements IService
 		$zenterRecipients = [];
 		//@TODO: Check if recipients in Zenter. Preferably in a batch
 
-		$recipientIds = array_map(function($recipient) { return $recipient->id }, $zenterRecipients);
+		$recipientIds = array_map(function($recipient) { return $recipient->id; }, $zenterRecipients);
 
 		//@TODO: create a list
+		$list = GraphqApiClient::createList("List-{$flightId}");
 
-		$list; //Should exist by now.
+		if ($list)
+		{
+			die("Creating list was successful");
+		}
+		die("Creating list was not successful");
 
 		//@TODO: Add recipients to list
 
 		//------------------------------------------------
 
 		//@TODO: Create a job
+		$jobTitle = "Flight{$flightId}";
+		$job =  GraphqApiClient::createJob($jobTitle); // this might need more details
+		$jobId = array_key_exists("id", $job)?$job['id']:null;
 
-		$job; //Should exist by now
-
+		if (!$jobId)
+		{
+			throw new Exception("Unable to create Job");
+		}
 
 		$articles = [
 			[
@@ -61,7 +90,6 @@ class Delay implements IService
 		//@TODO: Add list to job
 
 		//@TODO: Send the job
-		
 		return true;
 	}
 }
