@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<title></title>
+	<style type="text/css">
+		#outlook a{
+			padding:0;
+		}
+		body{
+			width:100%;
+			background-color:{if $job->intro->background_color}#{$job->intro->background_color}{else}#f9f9f9{/if};
+		}
+		.ReadMsgBody{
+			width:100%;
+		}
+		.ExternalClass{
+			width:100%;
+		}
+		table
+		{
+			border-collapse: collapse;
+		}
+
+		@media only screen and (max-width: 640px)  {
+			.deviceWidth
+			{
+				width:95% !important;
+			}
+			.deviceWidthInner
+			{
+				width:100% !important;
+			}
+			.center
+			{
+				text-align: center!important;
+			}
+			img
+			{
+				width: 100% !important;
+			}
+			td[class="force-col"],
+			td[class="force-col-center"]
+			{
+				display: block !important;
+				width: 100% !important;
+				clear: both;
+			}
+			.logo
+			{
+				width: 100% !important;
+				display: block;
+				margin: 0 auto;
+				padding-left: 0px !important;
+			}
+			.intro-img
+			{
+				width: 100% !important;
+			}
+			.section2-img
+			{
+				width: 95% !important;
+			}
+			.buttons
+			{
+				padding-left: 10px !important;
+			}
+		}
+
+		@media only screen and (max-width: 479px) {
+			.deviceWidth
+			{
+				width:95%!important;
+			}
+			.center
+			{
+				text-align: center!important;
+			}
+			img
+			{
+				width: 100% !important;
+			}
+		}
+	</style>
+</head>
+<body style="margin:0;padding:0; background-color:{if $job->intro->background_color}#{$job->intro->background_color}{else}#f9f9f9{/if};">
+	<table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" class="deviceWidth" bgcolor="{if $job->intro->background_color}#{$job->intro->background_color}{else}#f9f9f9{/if}">
+		<tr>
+			<td>
+
+				<table width="600" align="center" border="0" cellspacing="0" cellpadding="0" class="deviceWidth" bgcolor="{if $job->intro->background_color}#{$job->intro->background_color}{else}#f9f9f9{/if}">
+					<tr>
+						<td>
+							<table width="600" border="0" cellspacing="0" cellpadding="0" align="center" class="deviceWidth">
+								<tr>
+									<td style="font-size: 1px; color: {if $job->intro->background_color}#{$job->intro->background_color}{else}#f9f9f9{/if};"><a href="#" style="color: {if $job->intro->background_color}#{$job->intro->background_color}{else}#f9f9f9{/if}; text-decoration: none;">{$job->pre_header}</a></td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+
+					{if !$smarty.request.hide_browser_link}
+						<tr>
+							<td>
+								<table width="600" border="0" cellspacing="0" cellpadding="0" align="center" class="deviceWidth">
+									<tr>
+
+										<td height="10" align="center" valign="middle" style="
+											padding: 10px 0px;
+											font-size:12px;
+											color: {if $job->intro->text_color}#{$job->intro->text_color}{else}#010101{/if};
+											font-family: 'Roboto', Helvetica, Arial, sans-serif;
+											font-weight: bold;
+										">
+										Sérðu ekki tölvupóstinn?
+										<a href="%viewbrowserlink%" style="
+											color: {if $job->intro->text_color}#{$job->intro->text_color}{else}#010101{/if};
+											text-decoration:none;
+										">
+										Smelltu hér.</a></td>
+
+									</tr>
+								</table>
+							</td>
+						</tr>
+					{/if}
+				</table>
+
+				<!-- Logo -->
+
+				{if $job->intro->image}
+					<table width="600" align="center" border="0" cellspacing="0" cellpadding="0" class="deviceWidth" bgcolor="#f1f1f1">
+						<tr>
+							<td>
+								<table width="600" border="0" cellspacing="0" cellpadding="0" align="center" class="deviceWidth">
+									<tr>
+										<td> </td>
+									</tr>
+								</table>
+							</td>
+
+						</tr>
+
+						<tr>
+							<td>
+
+								<table width="600" align="center" border="0" cellspacing="0" cellpadding="0" class="deviceWidth">
+									<tr>
+										<td align="center" valign="middle" class="force-col">
+											<a href="{$job->intro->url}" target="_blank">
+											<img src="{$job->intro->image->fullpath}" width="180" height="auto" style="max-width: 600px;" alt="" border="0" class="logo" /></a>
+										</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+						<tr>
+						<td>
+							<table width="600" border="0" cellspacing="0" cellpadding="0" align="center" class="deviceWidth">
+								<tr>
+									<td> </td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+					</table>
+				{else}
+									{/if}
+
+				
+				<table width="600" align="center" border="0" cellspacing="0" cellpadding="0" class="deviceWidth">
+					<tr>
+						<td>
+							<table width="600" border="0" cellspacing="0" cellpadding="0" align="center" class="deviceWidth">
+								<tr>
+									<td> </td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+
+				<!-- Inngangur - Mynd -->
+
+				{foreach $job->getSections(1) as $section1}
+
+					{if $section1->image->id}
+
+						<table width="600" border="0" cellspacing="0" cellpadding="0" align="center" class="deviceWidth">
+
+							<tr>
+								<td>
+									<table width="600" align="center" border="0" cellspacing="0" cellpadding="0" class="intro-img">
+										<tr>
+											<td align="center" valign="top">
+												<a href="{$section1->url}">
+													<img src="{$section1->image->thumb_path('600x', '0')}" style="display:block;" border="0" width="600" /></a>
+											</td>
+										</tr>
+									</table>
+								</td>
+							</tr>
+						</table>
+					{/if}
+
+					<!-- Inngangur - Textaborði -->
+
+					{if $section1->title}
+
+						<table width="600" border="0" cellspacing="0" cellpadding="0" align="center" class="deviceWidth" bgcolor="{if $section1->background_color}#{$section1->background_color}{else}#333333{/if}">
+
+							<tr>
+								<td>
+									<table width="600" align="center" border="0" cellspacing="0" cellpadding="0" class="deviceWidth">
+										<tr>
+											<td width="auto" align="center" style="
+												font-family: 'Roboto', Helvetica, Arial, sans-serif;
+												color: {if $section1->title_color}#{$section1->title_color}{else}#ffffff{/if};
+												font-size:28px;
+												line-height: 34px;
+												font-weight: normal;
+												padding: 15px 0px;
+											">
+												{$section1->title}</td>
+										</tr>
+									</table>
+
+								</td>
+							</tr>
+
+						</table>
+
+						<table width="600" border="0" cellspacing="0" cellpadding="0" align="center" class="deviceWidth">
+							<tr>
+								<td>
+									<table width="600" border="0" cellspacing="0" cellpadding="0" align="center" class="deviceWidth">
+										<tr>
+											<td> </td>
+										</tr>
+									</table>
+								</td>
+							</tr>
+						</table>
+					{/if}
+				{/foreach}
+				<!-- Grein byrjar -->
+
+				<table width="600" border="0" cellspacing="0" cellpadding="0" align="center" class="deviceWidth" style="border: 1px solid {if $job->intro->border_color}#{$job->intro->border_color}{else}#cccccc{/if};">
+
+					{foreach $job->getSections(2) as $section2}
+						<tr>
+							<td>
+								<table border="0" cellspacing="0" cellpadding="0" align="center" width="600" class="deviceWidthInner" bgcolor="{if $section2->background_color}#{$section2->background_color}{else}#ffffff{/if}">
+									<tr>
+										<td>
+											<table width="560" align="center" border="0" cellpadding="0" cellspacing="0" class="deviceWidthInner">
+
+												{if $section2->title}
+													<tr>
+														<td> </td>
+													</tr>
+
+													<tr>
+														<td width="560" style="
+															font-size: 22px;
+															line-height: 28px;
+															color: {if $section2->title_color}#{$section2->title_color}{else}#222222{/if};
+															font-family: 'Roboto', Helvetica, Arial, sans-serif;
+															font-weight: bold;
+															padding: 0px 10px;
+														">
+														{$section2->title}</td>
+													</tr>
+												{/if}
+
+												{if $section2->description}
+
+													<tr>
+														<td> </td>
+													</tr>
+													<tr>
+														<td width="560" style="
+															font-size:16px;
+															color: {if $section2->text_color}#{$section2->text_color}{else}#222222{/if};
+															font-family: 'Roboto', Helvetica, Arial, sans-serif;
+															line-height: 22px;
+															padding: 0px 10px;
+														">
+														{$section2->description}</td>
+													</tr>
+
+													<tr>
+														<td> </td>
+													</tr>
+												{/if}
+											</table>
+										</td>
+									</tr>
+
+									{if $section2->button1->title}
+										<tr>
+											<td valign="top" width="560" align="center" class="buttons">
+												<table border="0" align="center" cellpadding="0" cellspacing="0" style="border-collapse: separate;">
+
+													<tr>
+														<td width="auto" class="force-col" style="
+															background-color:{if $section2->button1->background_color}#{$section2->button1->background_color}{else}#8f8f8f{/if};
+															border: 1px solid {if $section2->button1->border_color}#{$section2->button1->border_color}{else}#8f8f8f{/if};
+															border-radius:3px;
+															font-size:18px;
+															font-family: 'Roboto', Helvetica, Arial, sans-serif;
+															color:{if $section2->button1->text_color}#{$section2->button1->text_color}{else}#ffffff{/if};
+															font-weight: normal;
+															padding: 12px 0px;
+															text-align: center;
+														">
+															<a href="{$section2->button1->href}" style="text-decoration: none; color:{if $section2->button1->text_color}#{$section2->button1->text_color}{else}#ffffff{/if};">
+																   {$section2->button1->title}   </a>
+														</td>
+														{if $section2->button2->title}
+														<td width="15" class="force-col"> </td>
+														<td width="auto" class="force-col" style="
+															background-color:{if $section2->button2->background_color}#{$section2->button2->background_color}{else}#8f8f8f{/if};
+															border: 1px solid {if $section2->button2->border_color}#{$section2->button2->border_color}{else}#8f8f8f{/if};
+															border-radius:3px;
+															font-size:18px;
+															font-family: 'Roboto', Helvetica, Arial, sans-serif;
+															color:{if $section2->button2->text_color}#{$section2->button2->text_color}{else}#ffffff{/if};
+															font-weight: normal;
+															padding: 12px 0px;
+															text-align: center;
+														">
+															<a href="{$section2->button2->href}" style="text-decoration: none; color:{if $section2->button2->text_color}#{$section2->button2->text_color}{else}#ffffff{/if};">
+																   {$section2->button2->title}   </a>
+														</td>
+														{/if}
+													</tr>
+
+													<tr>
+														<td colspan="3"> </td>
+													</tr>
+
+												</table>
+											</td>
+										</tr>
+									{/if}
+
+									{if $section2->image->id}
+										<tr>
+											<td>
+												<table width="600" align="center" border="0" cellspacing="0" cellpadding="0" class="deviceWidthInner">
+
+														<tr>
+															<td align="center" style="text-align: center;">
+																<a href="{$section2->url}" target="_blank">
+																	<img src="{$section2->image->thumb_path('540x', '0')}" class="section2-img" border="0" />
+																</a>
+															</td>
+														</tr>
+
+														<tr>
+															<td> </td>
+														</tr>
+
+												</table>
+											</td>
+										</tr>
+									{/if}
+
+								</table>
+							</td>
+						</tr>
+					{/foreach}
+				</table>
+
+				<table width="600" align="center" border="0" cellspacing="0" cellpadding="0" class="deviceWidth">
+					<tr>
+						<td>
+							<table width="600" border="0" cellspacing="0" cellpadding="0" align="center" class="deviceWidth">
+								<tr>
+									<td> </td>
+								</tr>
+							</table>
+						</td>
+
+					</tr>
+				</table>
+
+				<!-- Footer -->
+
+				<table width="600" align="center" border="0" cellspacing="0" cellpadding="0" class="deviceWidth" bgcolor="{if $job->intro->background_color}#{$job->intro->background_color}{else}#ffffff{/if}" style="border: 1px solid {if $job->intro->border_color}#{$job->intro->border_color}{else}#e9e9e9{/if};">
+					<tr>
+						<td>
+							<table width="600" border="0" cellspacing="0" cellpadding="0" align="center" class="deviceWidth">
+								<tr>
+									<td> </td>
+								</tr>
+							</table>
+						</td>
+
+					</tr>
+
+											{if $job->intro->image}
+						<tr>
+							<td>
+
+								<table width="600" align="center" border="0" cellspacing="0" cellpadding="0" class="deviceWidth">
+									<tr>
+										<td align="center" valign="middle" class="force-col">
+											<a href="{$job->intro->url}" target="_blank">
+											<img src="{$job->intro->image->fullpath}" width="100" height="auto" style="max-width:100px;" alt="" border="0" class="logo" /></a>
+										</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+						{/if}
+					
+					<tr>
+						<td>
+														<table width="600" border="0" cellspacing="0" cellpadding="0" align="center" class="deviceWidth">
+								<tr>
+									<td> </td>
+								</tr>
+								<tr>
+									<td align="center" style="
+										color: {if $job->intro->text_color}#{$job->intro->text_color}{else}#222222{/if};
+										font-family: 'Roboto', Helvetica, Arial, sans-serif;
+										font-size: 14px;
+										line-height: 20px;
+										font-weight: normal;
+									">
+																				
+																				
+																				
+																				
+																			</td>
+								</tr>
+							</table>
+													</td>
+					</tr>
+
+					<tr>
+						<td>
+							<table width="600" border="0" cellspacing="0" cellpadding="0" align="center" class="deviceWidth">
+								<tr>
+									<td> </td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+
+					<tr>
+						<td>
+							<table width="540" align="center" border="0" cellpadding="0" cellspacing="0" class="deviceWidth">
+								<tr>
+									<td width="540" align="center" class="afskra" style="
+										padding-top: 30px;
+										padding-bottom: 10px;
+										border-top: 1px solid {if $job->intro->border_color}#{$job->intro->border_color}{else}#cccccc{/if};
+										color: {if $job->intro->text_color}#{$job->intro->text_color}{else}#222222{/if};
+										font-family: 'Roboto', Helvetica, Arial, sans-serif;
+										font-size: 12px;
+									">
+									<a style="color: {if $job->intro->text_color}#{$job->intro->text_color}{else}#222222{/if}; font-weight:bold; text-decoration: none;" href="%unregisterlink%">Afskrá af póstlista</a></td>
+								</tr>
+								<tr>
+									<td width="540" align="center" class="afskra" style="
+										padding-bottom: 10px;
+										color: {if $job->intro->text_color}#{$job->intro->text_color}{else}#222222{/if};
+										font-family: 'Roboto', Helvetica, Arial, sans-serif;
+										font-size: 12px;
+									">
+									Þessi tölvupóstur var sendur á netfangið <a href="mailto:%recipient%" style="color: {if $job->intro->text_color}#{$job->intro->text_color}{else}#222222{/if}; font-weight:bold; text-decoration: none;">%recipient%</a></td>
+								</tr>
+								<tr>
+									<td width="540" align="center" class="afskra" style="
+
+										color: {if $job->intro->text_color}#{$job->intro->text_color}{else}#222222{/if};
+										font-family: 'Roboto', Helvetica, Arial, sans-serif;
+										font-size: 12px;
+									">
+									Þessi póstur var sendur úr samskiptakerfi <a style="color: {if $job->intro->text_color}#{$job->intro->text_color}{else}#222222{/if}; font-weight:bold; text-decoration: none;" href="http://www.zenter.is">zenter.is</a></td>
+								</tr>
+								<tr>
+									<td>%tracking%</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+
+				<table width="600" align="center" border="0" cellspacing="0" cellpadding="0" class="deviceWidth">
+					<tr>
+						<td>
+							<table width="600" border="0" cellspacing="0" cellpadding="0" align="center" class="deviceWidth">
+								<tr>
+									<td> </td>
+								</tr>
+							</table>
+						</td>
+
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+</body>
+</html>

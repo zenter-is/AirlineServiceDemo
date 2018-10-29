@@ -11,9 +11,26 @@ class Landed implements IService
 	{
 	}
 
-
 	public function execute(array $data):bool
 	{
+		GraphqApiClient::initialize("http://zenter.local/Api/V2ea1");
+		GraphqApiClient::getVersion();
+
+		$token = GraphqApiClient::login("483_api@zenter.is", "f3ad7732fcfa98059a84aae21536bdfa");
+
+		if (!$token)
+		{
+			throw new Exception("Could not login");
+		}
+
+		GraphqApiClient::initialize("http://zenter.local/Api/V2ea1?token={$token}");
+		if (!GraphqApiClient::IsPriviliged())
+		{
+			throw new Exception("Login attempt failed");
+		}
+
+		$template =  GraphqApiClient::createTemplate("testing Email".time());
+
 		$flightId = $data['flightId'];
 
 		$airlineApi = new AirlineApi('http://some_endpoint');
@@ -32,7 +49,7 @@ class Landed implements IService
 		$zenterRecipients = [];
 		//@TODO: Check if recipients in Zenter. Preferably in a batch
 
-		$recipientIds = array_map(function($recipient) { return $recipient->id }, $zenterRecipients);
+		$recipientIds = array_map(function($recipient) { return $recipient->id; }, $zenterRecipients);
 
 		//@TODO: create a list
 		$list = GraphqApiClient::createList("List-{$flightId}");

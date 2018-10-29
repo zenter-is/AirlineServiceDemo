@@ -1,0 +1,8 @@
+mutation($title:String!, $body:String!)
+{
+	CreateTemplate(title:$title, body:$body)
+	{
+		id
+		title
+	}
+}

@@ -104,6 +104,23 @@ class GraphqApiClient
 		return idx($data, "CreateJob");
 	}
 
+	public static function createTemplate(string $title)
+	{
+		$query = [
+			"query" => file_get_contents(__DIR__ . "/../ZenterApiQueries/CreateTemplate.graphql"),
+			"variables" =>
+			[
+				'title' => $title,
+				'body' => file_get_contents(__DIR__ . "/../ZenterData/Email.html"),
+			]
+		];
+		$data = self::getDataFromQuery($query);
+
+		if(!$data) return null;
+
+		return idx($data, "CreateTemplate");
+	}
+
 	public static function sendJob(int $id)
 	{
 		$query = [
